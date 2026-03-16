@@ -1,6 +1,8 @@
 # LORE — Architectural Memory for AI Coding
 
-<p align="center"><img src="logo.png" width="200"/></p>
+<p align="center">
+  <img src="logo.png" width="300" alt="LORE Logo"/>
+</p>
 
 > AI forgets why your code was built this way. LORE remembers.
 
@@ -28,7 +30,6 @@ Every future AI session starts with full context.
 
 ## Demo
 ```
-$ cd my-project
 $ lore init
 
 LORE — Architectural Memory for AI Coding
@@ -39,18 +40,6 @@ LORE — Architectural Memory for AI Coding
 ✓ .lore/ initialized
 ```
 
-Generated `LORE.md`:
-```
-## Database
-### 🟢 PostgreSQL as primary database
-**Why**: Found pg/postgres in dependencies
-**Rules**: Use connection pooling always
-
-## Authentication
-### 🟢 JWT-based authentication
-**Rules**: Never store secrets in code
-```
-
 ## Quick Start
 ```bash
 npm install -g lore-mcp
@@ -59,8 +48,6 @@ lore init
 ```
 
 ## MCP Integration (Claude Code / Cursor)
-
-Add to your MCP settings:
 ```json
 {
   "mcpServers": {
