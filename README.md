@@ -24,6 +24,31 @@ extracts architectural decisions — no manual work needed.
 
 Every future AI session starts with full context.
 
+## Demo
+```
+$ cd my-project
+$ lore init
+
+LORE — Architectural Memory for AI Coding
+→ Analyzing: /home/user/my-project
+
+✓ Found 5 architectural decisions
+✓ LORE.md created
+✓ .lore/ initialized
+```
+
+Generated `LORE.md`:
+```
+## Database
+### 🟢 PostgreSQL as primary database
+**Why**: Found pg/postgres in dependencies
+**Rules**: Use connection pooling always
+
+## Authentication
+### 🟢 JWT-based authentication
+**Rules**: Never store secrets in code
+```
+
 ## Quick Start
 ```bash
 npm install -g lore-mcp
