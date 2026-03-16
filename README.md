@@ -1,5 +1,7 @@
 # LORE — Architectural Memory for AI Coding
 
+<p align="center"><img src="logo.png" width="200"/></p>
+
 > AI forgets why your code was built this way. LORE remembers.
 
 ## The Problem
