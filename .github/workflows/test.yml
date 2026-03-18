@@ -1,0 +1,44 @@
+name: Test LORE on all platforms
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [18, 20]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Test lore --version
+        run: node dist/cli.js --version
+
+      - name: Test lore --help
+        run: node dist/cli.js --help
+
+      - name: Test lore init
+        run: node dist/cli.js init
+
+      - name: Test lore status
+        run: node dist/cli.js status
+
+      - name: Test lore doctor
+        run: node dist/cli.js doctor
