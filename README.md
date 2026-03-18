@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo.png" width="180" alt="LORE"/>
+  <img src="logo.png" width="350" alt="LORE"/>
 </p>
 
 <h1 align="center">LORE — Architectural Memory for AI Coding</h1>
