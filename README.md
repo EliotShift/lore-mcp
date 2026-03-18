@@ -1,23 +1,36 @@
 <p align="center">
-  <img src="logo.png" width="250" alt="LORE"/>
+  <img src="logo.png" width="200" alt="LORE"/>
 </p>
 
-# LORE — Architectural Memory for AI Coding
+<h1 align="center">LORE — Architectural Memory for AI Coding</h1>
 
-> AI forgets why your code was built this way. LORE remembers.
+<p align="center">
+  <a href="https://npmjs.com/package/lore-mcp"><img src="https://img.shields.io/npm/v/lore-mcp?color=4f6ef7&label=npm" alt="npm"/></a>
+  <a href="https://npmjs.com/package/lore-mcp"><img src="https://img.shields.io/npm/dm/lore-mcp?color=4f6ef7" alt="downloads"/></a>
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="license"/>
+</p>
+
+<p align="center"><em>AI forgets why your code was built this way. LORE remembers.</em></p>
+
+---
+
+## Demo
 
 <p align="center">
   <img src="demo.svg" alt="LORE Demo"/>
 </p>
+
+---
 
 ## The Problem
 
 Every new AI coding session starts fresh.
 No context. No history. No "why".
 
-Your team decided to use PostgreSQL over MongoDB.
-Your authentication uses JWT with 24h expiry.
-Your API follows REST with /api/v1/ versioning.
+Your team decided to use PostgreSQL over MongoDB.  
+Your authentication uses JWT with 24h expiry.  
+4 of your API routes have no auth middleware.  
+Your bug-fix ratio is dangerously high.
 
 **The next AI session knows none of this.**
 
@@ -27,50 +40,57 @@ cd your-project
 lore init
 ```
 
-LORE reads your existing codebase and automatically
-extracts architectural decisions — no manual work needed.
-
-Every future AI session starts with full context.
-
-## Demo
-```
-$ lore init
-
-LORE — Architectural Memory for AI Coding
-→ Analyzing: /home/user/my-project
-
-✓ Found 5 architectural decisions
-✓ LORE.md created
-✓ .lore/ initialized
-```
+LORE reads your codebase and automatically extracts:
+- Architectural decisions from dependencies
+- Security gaps from source code
+- Risk patterns from git history
+- The WHY behind your choices
 
 ## Quick Start
 ```bash
 npm install -g lore-mcp
 cd your-project
 lore init
+lore status
 ```
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `lore init` | Analyze project and extract architectural decisions |
+| `lore init` | Analyze project and extract all decisions |
+| `lore status` | View decisions by category with risk indicators |
 | `lore decide "reason"` | Record WHY behind a decision manually |
-| `lore status` | View all decisions with categories |
-| `lore doctor` | Diagnose setup issues |
+| `lore doctor` | Diagnose LORE setup issues |
 | `lore --version` | Show version |
 
-## Why lore decide?
+## What LORE Detects
 
-Automated extraction captures WHAT your code uses.
-`lore decide` captures WHY you made that choice:
+**From dependencies:**
+- Databases (PostgreSQL, MongoDB, MySQL, SQLite)
+- Auth (JWT, Passport, NextAuth)
+- Frameworks (Express, Fastify, Next.js, Hono)
+- Validation (Zod, Yup, Joi)
+- Caching (Redis, Memcached)
+
+**From source code:**
+- API versioning patterns (`/api/v1/`)
+- Unprotected routes (security gaps)
+- Error handling coverage %
+- Architecture patterns (MVC, Service/Model)
+- Environment variables usage
+
+**From git history:**
+- Project age and contributors
+- High churn files (risk indicators)
+- Bug-fix ratio (code quality signal)
+- Security-related commit patterns
+
+## Capture the WHY
 ```bash
 lore decide "chose PostgreSQL over MongoDB because we need ACID transactions for payments"
 lore decide "rejected Redis sessions — JWT scales better for our microservices"
 ```
-
-Every future AI session knows the reasoning, not just the stack.
 
 ## MCP Integration (Claude Code / Cursor)
 ```json
@@ -83,16 +103,6 @@ Every future AI session knows the reasoning, not just the stack.
   }
 }
 ```
-
-## What LORE Detects Automatically
-
-- Database choices (PostgreSQL, MongoDB, MySQL, SQLite)
-- Authentication patterns (JWT, Passport, NextAuth)
-- Web frameworks (Express, Fastify, Next.js)
-- Validation libraries (Zod, Yup, Joi)
-- Caching strategies (Redis, Memcached)
-- Testing frameworks (Jest, Vitest)
-- Security rules and constraints
 
 ## Built by
 
