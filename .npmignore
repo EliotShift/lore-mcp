@@ -1,0 +1,10 @@
+logo.png
+logo-transparent.png
+LORE.md
+.lore/
+*.png
+*.jpg
+*.jpeg
+*.gif
+tsconfig.json
+src/
