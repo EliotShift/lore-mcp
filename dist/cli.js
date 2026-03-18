@@ -304,6 +304,19 @@ function extractDecisions(projectPath) {
             if (deps["zod"]) {
                 decisions.push(makeDecision("architecture", "Zod for schema validation", "Found zod in dependencies", "HIGH", ["yup", "joi"], ["Validate all API inputs with Zod"]));
             }
+            // Security libraries
+            if (deps["bcrypt"] || deps["bcryptjs"]) {
+                decisions.push(makeDecision("security", "bcrypt for password hashing", "Found bcrypt in dependencies", "HIGH", ["md5", "sha1"], ["Never store plain text passwords", "Use minimum 10 salt rounds"]));
+            }
+            if (deps["helmet"]) {
+                decisions.push(makeDecision("security", "Helmet.js for HTTP security headers", "Found helmet in dependencies", "HIGH", [], ["Keep helmet enabled in production"]));
+            }
+            if (deps["cors"]) {
+                decisions.push(makeDecision("security", "CORS configured via cors middleware", "Found cors in dependencies", "HIGH", [], ["Configure allowed origins explicitly", "Never use wildcard * in production"]));
+            }
+            if (deps["dotenv"]) {
+                decisions.push(makeDecision("security", "dotenv for environment configuration", "Found dotenv in dependencies", "HIGH", [], ["Never commit .env file", "Always add .env to .gitignore"]));
+            }
             // Language
             if (deps["typescript"] || pkg.devDependencies?.["typescript"]) {
                 decisions.push(makeDecision("architecture", "TypeScript as primary language", "Found typescript in dependencies", "HIGH", ["JavaScript"], ["Use strict mode", "No any types without comment"]));
@@ -543,9 +556,10 @@ function analyzeSourceCode(projectPath) {
     // Unprotected routes detection
     const totalRoutes = (allContent.match(/\.(get|post|put|delete|patch)\s*\(/gi) || []).length;
     const protectedRoutes = (allContent.match(/\.(get|post|put|delete|patch)\s*\([^,]+,\s*(auth|authenticate|verify|protect)/gi) || []).length;
-    const unprotectedCount = totalRoutes - protectedRoutes;
+    const publicRoutes = (allContent.match(/[\/]public[\/]|[\/]health|[\/]status|[\/]ping/gi) || []).length;
+    const unprotectedCount = totalRoutes - protectedRoutes - publicRoutes;
     if (totalRoutes > 0 && unprotectedCount > 0) {
-        decisions.push(makeDecision("security", `${unprotectedCount} of ${totalRoutes} routes may lack auth middleware`, "Detected routes without explicit auth middleware", unprotectedCount > 3 ? "HIGH" : "MEDIUM", [], ["Review and protect sensitive endpoints"]));
+        decisions.push(makeDecision("security", `${unprotectedCount} of ${totalRoutes} routes may lack auth middleware`, `Detected ${unprotectedCount} non-public routes without explicit auth middleware`, unprotectedCount > 3 ? "HIGH" : "MEDIUM", [], ["Review and protect sensitive endpoints", "Public routes: /public/, /health, /status are excluded"]));
     }
     // Environment variables usage
     const envUsage = (allContent.match(/process\.env\.\w+/g) || []);
@@ -629,6 +643,20 @@ function analyzeGitHistory(projectPath) {
         const recentMessages = execSync('git log --format="%s" -20', { cwd: projectPath, encoding: "utf-8", stdio: ["pipe", "pipe", "ignore"] }).trim();
         if (recentMessages) {
             const messages = recentMessages.split("\n");
+            // Score commit message quality
+            const qualityMessages = messages.filter((m) => {
+                if (m.length < 10)
+                    return false; // too short = low quality
+                if (/because|due to|since|reason|in order to/i.test(m))
+                    return true; // WHY present = high quality
+                if (m.length > 30)
+                    return true; // detailed = medium quality
+                return false;
+            });
+            const qualityScore = Math.round((qualityMessages.length / messages.length) * 100);
+            if (qualityScore < 30 && messages.length > 3) {
+                decisions.push(makeDecision("risk", `Low commit message quality: ${qualityScore}%`, "Most commits lack context — WHY behind changes is lost", "MEDIUM", [], ["Write descriptive commits: use because/due to/reason", "Run: lore decide to capture WHY manually"]));
+            }
             // Detect fix-heavy history
             const fixCount = messages.filter((m) => /^fix|^bug|^hotfix|^patch/i.test(m)).length;
             if (fixCount > messages.length * 0.5) {
