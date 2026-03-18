@@ -1,46 +1,43 @@
 <p align="center">
-  <img src="logo.png" width="200" alt="LORE"/>
+  <img src="logo.png" width="180" alt="LORE"/>
 </p>
 
 <h1 align="center">LORE — Architectural Memory for AI Coding</h1>
 
 <p align="center">
-  <a href="https://npmjs.com/package/lore-mcp"><img src="https://img.shields.io/npm/v/lore-mcp?color=4f6ef7&label=npm" alt="npm"/></a>
-  <a href="https://npmjs.com/package/lore-mcp"><img src="https://img.shields.io/npm/dm/lore-mcp?color=4f6ef7" alt="downloads"/></a>
-  <img src="https://img.shields.io/badge/license-MIT-green" alt="license"/>
+  <a href="https://npmjs.com/package/lore-mcp"><img src="https://img.shields.io/npm/v/lore-mcp?color=4f6ef7&label=npm&style=flat-square" alt="npm"/></a>
+  <a href="https://npmjs.com/package/lore-mcp"><img src="https://img.shields.io/npm/dm/lore-mcp?color=4f6ef7&style=flat-square" alt="downloads"/></a>
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="license"/>
+  <img src="https://img.shields.io/badge/local--first-no%20data%20leaves-brightgreen?style=flat-square" alt="local-first"/>
 </p>
 
 <p align="center"><em>AI forgets why your code was built this way. LORE remembers.</em></p>
 
 ---
 
-## Demo
+## See it in action
 
 <p align="center">
-  <img src="demo.svg" alt="LORE Demo"/>
+  <img src="demo.svg" alt="LORE Demo" width="700"/>
 </p>
 
 ---
 
-## The Problem
+## Why LORE?
 
-Every new AI coding session starts fresh.
-No context. No history. No "why".
+Every time you open Claude Code or Cursor, it starts with zero context.
 
-Your team decided to use PostgreSQL over MongoDB.  
-Your authentication uses JWT with 24h expiry.  
-4 of your API routes have no auth middleware.  
-Your bug-fix ratio is dangerously high.
+**Without LORE**, you manually explain every session:
+- "We use PostgreSQL because we need ACID transactions"
+- "JWT expiry is 24h due to mobile requirements"
+- "4 of our API routes have no auth middleware"
 
-**The next AI session knows none of this.**
-
-## The Solution
+**With LORE**, one command gives AI full context automatically:
 ```bash
-cd your-project
-lore init
+npx lore-mcp init
 ```
 
-LORE reads your codebase and automatically extracts up to **24 architectural decisions** including security gaps, risk patterns, and the WHY behind your choices.
+---
 
 ## Quick Start
 ```bash
@@ -50,47 +47,44 @@ lore init
 lore status
 ```
 
-## Commands
+---
 
-| Command | Description |
-|---------|-------------|
-| `lore init` | Analyze project and extract all decisions |
-| `lore status` | View decisions by category with risk indicators |
-| `lore decide "reason"` | Record WHY behind a decision manually |
-| `lore doctor` | Diagnose LORE setup issues |
-| `lore --version` | Show version |
+## What LORE detects
 
-## What LORE Detects
+| Source | What it finds |
+|--------|---------------|
+| `package.json` | Databases, frameworks, auth, security libs |
+| Source code | Unprotected routes, error handling %, MVC patterns |
+| Git history | Bug-fix ratio, high churn files, commit quality |
+| Manual input | WHY behind decisions via `lore decide` |
 
-**From dependencies:**
-- Databases (PostgreSQL, MongoDB, MySQL, SQLite)
-- Auth (JWT, Passport, NextAuth)
-- Frameworks (Express, Fastify, Next.js, Hono)
-- Validation (Zod, Yup, Joi)
-- Caching (Redis, Memcached)
-- Security (bcrypt, helmet, cors, dotenv)
+---
 
-**From source code:**
-- API versioning patterns (`/api/v1/`)
-- Unprotected routes (security gaps)
-- Error handling coverage %
-- Architecture patterns (MVC, Service/Model)
-- Environment variables usage
-
-**From git history:**
-- Project age and contributors
-- High churn files (risk indicators)
-- Bug-fix ratio (code quality signal)
-- Commit message quality score
-- Security-related commit patterns
-
-## Capture the WHY
+## CLI
 ```bash
-lore decide "chose PostgreSQL over MongoDB because we need ACID transactions for payments"
-lore decide "rejected Redis sessions — JWT scales better for our microservices"
+lore init                        # Analyze project → extract 24 decisions
+lore status                      # View all decisions by category
+lore decide "reason"             # Record WHY behind a decision
+lore doctor                      # Diagnose setup issues
+lore --version                   # Show version
 ```
 
-## MCP Integration (Claude Code / Cursor)
+---
+
+## Capture the WHY
+
+Automated extraction finds WHAT. `lore decide` captures WHY:
+```bash
+lore decide "chose PostgreSQL over MongoDB — need ACID for payments"
+lore decide "rejected Redis sessions — JWT scales better for microservices"
+lore decide "helmet enabled — security audit requirement Q1 2026"
+```
+
+---
+
+## MCP Integration
+
+Add to Claude Code / Cursor settings:
 ```json
 {
   "mcpServers": {
@@ -101,6 +95,24 @@ lore decide "rejected Redis sessions — JWT scales better for our microservices
   }
 }
 ```
+
+---
+
+## What LORE finds in a real project
+```
+SECURITY
+  ● bcrypt for password hashing
+  ● Helmet.js for HTTP security headers
+  ● 3 of 5 routes may lack auth middleware  ← security gap
+  ● JWT secrets must be in environment variables
+
+RISK
+  ● High bug-fix ratio: 3/5 recent commits are fixes
+  ● Low commit message quality: 0%
+  ● High churn file: src/services/userService.ts
+```
+
+---
 
 ## Built by
 
