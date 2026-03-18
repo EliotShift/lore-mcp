@@ -357,6 +357,12 @@ function extractDecisions(projectPath) {
             warn(`Could not parse docker-compose.yml: ${String(e)}`);
         }
     }
+    // Analyze actual source code
+    const codeDecisions = analyzeSourceCode(projectPath);
+    decisions.push(...codeDecisions);
+    // Analyze git history
+    const gitDecisions = analyzeGitHistory(projectPath);
+    decisions.push(...gitDecisions);
     return decisions;
 }
 function makeDecision(category, decision, reason, confidence, alternatives = [], constraints = []) {
@@ -487,4 +493,156 @@ async function decide(reason) {
     ok(`Decision recorded: "${reason}"`);
     ok(`LORE.md updated\n`);
     log(`${BOLD}View all decisions:${RESET} lore status\n`);
+}
+// ──────────────────────────────────────────
+// CODE ANALYSIS: read actual source files
+// ──────────────────────────────────────────
+function analyzeSourceCode(projectPath) {
+    const decisions = [];
+    // Find all source files
+    const srcDirs = ["src", "app", "lib", "server", "api"].filter(d => fs.existsSync(path.join(projectPath, d)));
+    if (srcDirs.length === 0)
+        return decisions;
+    // Read all .ts .js files
+    const files = [];
+    function walkDir(dir) {
+        try {
+            const entries = fs.readdirSync(dir, { withFileTypes: true });
+            for (const entry of entries) {
+                if (entry.name === "node_modules" || entry.name === ".git")
+                    continue;
+                const fullPath = path.join(dir, entry.name);
+                if (entry.isDirectory())
+                    walkDir(fullPath);
+                else if (/\.(ts|js)$/.test(entry.name))
+                    files.push(fullPath);
+            }
+        }
+        catch { }
+    }
+    srcDirs.forEach(d => walkDir(path.join(projectPath, d)));
+    // Analyze patterns across all files
+    const allContent = files.map(f => {
+        try {
+            return fs.readFileSync(f, "utf-8");
+        }
+        catch {
+            return "";
+        }
+    }).join("\n");
+    // API Versioning pattern
+    const apiVersionMatch = allContent.match(/['"`](\/api\/v\d+)['"`)]/);
+    if (apiVersionMatch) {
+        decisions.push(makeDecision("architecture", `API versioning with ${apiVersionMatch[1]}`, `Found versioned API routes in source code`, "HIGH", [], ["Maintain backward compatibility when adding new versions"]));
+    }
+    // Auth middleware pattern
+    const authMiddlewareCount = (allContent.match(/app\.use.*auth|router\.use.*auth|middleware.*auth/gi) || []).length;
+    if (authMiddlewareCount > 0) {
+        decisions.push(makeDecision("security", "Authentication middleware applied globally", `Found ${authMiddlewareCount} auth middleware usage(s) in source code`, "HIGH", [], ["Ensure all protected routes use auth middleware"]));
+    }
+    // Unprotected routes detection
+    const totalRoutes = (allContent.match(/\.(get|post|put|delete|patch)\s*\(/gi) || []).length;
+    const protectedRoutes = (allContent.match(/\.(get|post|put|delete|patch)\s*\([^,]+,\s*(auth|authenticate|verify|protect)/gi) || []).length;
+    const unprotectedCount = totalRoutes - protectedRoutes;
+    if (totalRoutes > 0 && unprotectedCount > 0) {
+        decisions.push(makeDecision("security", `${unprotectedCount} of ${totalRoutes} routes may lack auth middleware`, "Detected routes without explicit auth middleware", unprotectedCount > 3 ? "HIGH" : "MEDIUM", [], ["Review and protect sensitive endpoints"]));
+    }
+    // Environment variables usage
+    const envUsage = (allContent.match(/process\.env\.\w+/g) || []);
+    const uniqueEnvVars = [...new Set(envUsage.map(e => e.replace("process.env.", "")))];
+    if (uniqueEnvVars.length > 0) {
+        decisions.push(makeDecision("security", `${uniqueEnvVars.length} environment variables used`, `Found: ${uniqueEnvVars.slice(0, 5).join(", ")}${uniqueEnvVars.length > 5 ? "..." : ""}`, "HIGH", [], ["Never hardcode these values", "Add all to .env.example"]));
+    }
+    // Async/await vs callbacks pattern
+    const asyncCount = (allContent.match(/async\s+function|async\s*\(/g) || []).length;
+    const callbackCount = (allContent.match(/callback|\.then\s*\(/g) || []).length;
+    if (asyncCount > callbackCount && asyncCount > 5) {
+        decisions.push(makeDecision("architecture", "Async/await as primary async pattern", `Found ${asyncCount} async usages vs ${callbackCount} callbacks`, "HIGH", ["callbacks", "promises"], ["Use async/await consistently throughout the codebase"]));
+    }
+    // Error handling pattern
+    const tryCatchCount = (allContent.match(/try\s*{/g) || []).length;
+    const totalFunctions = (allContent.match(/function\s+\w+|=>\s*{/g) || []).length;
+    if (totalFunctions > 0) {
+        const errorHandlingRatio = Math.round((tryCatchCount / totalFunctions) * 100);
+        if (errorHandlingRatio < 30 && totalFunctions > 5) {
+            decisions.push(makeDecision("architecture", `Low error handling coverage: ${errorHandlingRatio}%`, `Only ${tryCatchCount} try/catch blocks for ${totalFunctions} functions`, "MEDIUM", [], ["Add error handling to all async operations"]));
+        }
+    }
+    // Folder structure pattern
+    const hasControllers = fs.existsSync(path.join(projectPath, "src/controllers")) ||
+        fs.existsSync(path.join(projectPath, "app/controllers"));
+    const hasServices = fs.existsSync(path.join(projectPath, "src/services")) ||
+        fs.existsSync(path.join(projectPath, "app/services"));
+    const hasModels = fs.existsSync(path.join(projectPath, "src/models")) ||
+        fs.existsSync(path.join(projectPath, "app/models"));
+    if (hasControllers && hasServices && hasModels) {
+        decisions.push(makeDecision("architecture", "MVC architecture pattern", "Found controllers/, services/, and models/ directories", "HIGH", ["flat structure"], ["Keep business logic in services, not controllers"]));
+    }
+    else if (hasServices && hasModels) {
+        decisions.push(makeDecision("architecture", "Service/Model layered architecture", "Found services/ and models/ directories", "HIGH", [], ["Keep business logic in services layer"]));
+    }
+    return decisions;
+}
+// ──────────────────────────────────────────
+// GIT ANALYSIS: extract insights from history
+// ──────────────────────────────────────────
+function analyzeGitHistory(projectPath) {
+    const decisions = [];
+    const gitDir = path.join(projectPath, ".git");
+    if (!fs.existsSync(gitDir))
+        return decisions;
+    try {
+        const { execSync } = require("child_process");
+        // Project age
+        const firstCommit = execSync('git log --reverse --format="%ai" | head -1', { cwd: projectPath, encoding: "utf-8", stdio: ["pipe", "pipe", "ignore"] }).trim();
+        if (firstCommit) {
+            const age = Math.floor((Date.now() - new Date(firstCommit).getTime()) / (1000 * 60 * 60 * 24));
+            const years = Math.floor(age / 365);
+            const months = Math.floor((age % 365) / 30);
+            const ageStr = years > 0 ? `${years}y ${months}m` : `${months} months`;
+            decisions.push(makeDecision("project", `Project is ${ageStr} old`, `First commit: ${firstCommit.split(" ")[0]}`, "HIGH"));
+        }
+        // Number of contributors
+        const contributors = execSync('git log --format="%ae" | sort -u | wc -l', { cwd: projectPath, encoding: "utf-8", stdio: ["pipe", "pipe", "ignore"] }).trim();
+        if (parseInt(contributors) > 0) {
+            decisions.push(makeDecision("project", `${contributors} contributor(s) in git history`, "Extracted from git log", "HIGH"));
+        }
+        // Most changed files = hotspots
+        const hotspots = execSync('git log --format="" --name-only | grep -v "^$" | sort | uniq -c | sort -rn | head -5', { cwd: projectPath, encoding: "utf-8", stdio: ["pipe", "pipe", "ignore"] }).trim();
+        if (hotspots) {
+            const topFile = hotspots.split("\n")[0].trim().split(/\s+/).slice(1).join(" ");
+            const changeCount = hotspots.split("\n")[0].trim().split(/\s+/)[0];
+            if (topFile) {
+                decisions.push(makeDecision("risk", `High churn file: ${topFile} (${changeCount} changes)`, "Most frequently changed file in git history", "MEDIUM", [], ["This file needs extra attention and tests"]));
+            }
+        }
+        // Recent activity
+        const lastCommit = execSync('git log -1 --format="%ai %s"', { cwd: projectPath, encoding: "utf-8", stdio: ["pipe", "pipe", "ignore"] }).trim();
+        if (lastCommit) {
+            const lastDate = lastCommit.split(" ")[0];
+            const daysSince = Math.floor((Date.now() - new Date(lastDate).getTime()) / (1000 * 60 * 60 * 24));
+            if (daysSince > 90) {
+                decisions.push(makeDecision("risk", `Project inactive for ${daysSince} days`, `Last commit: ${lastDate}`, "MEDIUM", [], ["Consider reviewing if this project is still maintained"]));
+            }
+        }
+        // Commit message patterns — detect WHY
+        const recentMessages = execSync('git log --format="%s" -20', { cwd: projectPath, encoding: "utf-8", stdio: ["pipe", "pipe", "ignore"] }).trim();
+        if (recentMessages) {
+            const messages = recentMessages.split("\n");
+            // Detect fix-heavy history
+            const fixCount = messages.filter((m) => /^fix|^bug|^hotfix|^patch/i.test(m)).length;
+            if (fixCount > messages.length * 0.5) {
+                decisions.push(makeDecision("risk", `High bug-fix ratio: ${fixCount}/${messages.length} recent commits are fixes`, "Detected from git commit messages", "HIGH", [], ["Consider adding more tests to reduce bug rate"]));
+            }
+            // Detect security-related commits
+            const securityCommits = messages.filter((m) => /security|vuln|cve|auth|xss|injection/i.test(m));
+            if (securityCommits.length > 0) {
+                decisions.push(makeDecision("security", `Security-related changes detected in history`, `Found: "${securityCommits[0]}"`, "HIGH", [], ["Review security patches and ensure they are complete"]));
+            }
+        }
+    }
+    catch (e) {
+        // Git not available or no commits
+    }
+    return decisions;
 }
