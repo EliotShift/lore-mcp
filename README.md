@@ -6,6 +6,10 @@
 
 > AI forgets why your code was built this way. LORE remembers.
 
+<p align="center">
+  <img src="demo.svg" alt="LORE Demo"/>
+</p>
+
 ## The Problem
 
 Every new AI coding session starts fresh.
