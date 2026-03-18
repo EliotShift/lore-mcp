@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="terminal" baseProfile="full" viewBox="0 0 687 489" width="687" version="1.1">
+    <defs>
+        <termtosvg:template_settings xmlns:termtosvg="https://github.com/nbedos/termtosvg">
+            <termtosvg:screen_geometry columns="80" rows="24"/>
+            <termtosvg:animation type="css"/>
+        </termtosvg:template_settings>
+        <style type="text/css" id="generated-style"><![CDATA[#screen {
+                font-family: 'DejaVu Sans Mono', monospace;
+                font-style: normal;
+                font-size: 14px;
+            }
+
+        text {
+            dominant-baseline: text-before-edge;
+            white-space: pre;
+        }
+    
+            :root {
+                --animation-duration: 6166ms;
+            }
+
+            @keyframes roll {
+                0.000%{transform:translateY(0px)}
+16.234%{transform:translateY(-442px)}
+32.468%{transform:translateY(-884px)}
+41.096%{transform:translateY(-1326px)}
+42.086%{transform:translateY(-1768px)}
+42.361%{transform:translateY(-2210px)}
+74.895%{transform:translateY(-2652px)}
+83.474%{transform:translateY(-3094px)}
+83.766%{transform:translateY(-3536px)}
+83.782%{transform:translateY(-3978px)}
+100.000%{transform:translateY(-3978px)}
+            }
+
+            #screen_view {
+                animation-duration: 6166ms;
+                animation-iteration-count:infinite;
+                animation-name:roll;
+                animation-timing-function: steps(1,end);
+                animation-fill-mode: forwards;
+            }
+        ]]></style>
+        <style type="text/css" id="user-style">
+            /* The colors defined below are the default 16 colors used for rendering text of the terminal. Adjust
+               them as needed.
+               gjm8 color theme (source: https://terminal.sexy/) */
+            .foreground {fill: #f8f8f2}
+            .background {fill: #272822}
+            .color0 {fill: #272822}
+            .color1 {fill: #f92672}
+            .color2 {fill: #a6e22e}
+            .color3 {fill: #f4bf75}
+            .color4 {fill: #66d9ef}
+            .color5 {fill: #ae81ff}
+            .color6 {fill: #a1efe4}
+            .color7 {fill: #f8f8f2}
+            .color8 {fill: #75715e}
+            .color9 {fill: #fd971f}
+            .color10 {fill: #383830}
+            .color11 {fill: #49483e}
+            .color12 {fill: #a59f85}
+            .color13 {fill: #f5f4f1}
+            .color14 {fill: #cc6633}
+            .color15 {fill: #f9f8f5}
+        </style>
+    </defs>
+    <rect id="terminalui" class="background" width="100%" height="100%" ry="4.5826941"/>
+    <circle cx="24" cy="23" r="7" class="color1"/>
+    <circle cx="44" cy="23" r="7" class="color3"/>
+    <circle cx="64" cy="23" r="7" class="color2"/>
+    <svg id="screen" width="640" height="408" x="23" y="50" viewBox="0 0 640 408" preserveAspectRatio="xMidYMin slice"><rect class="background" height="100%" width="100%" x="0" y="0"/><defs><g id="g1"><text x="0" textLength="8" class="background"> </text></g><g id="g2"><text x="0" textLength="120" class="foreground">$ cd my-project</text></g><g id="g3"><text x="0" textLength="88" class="foreground">$ lore init</text></g><g id="g4"><text x="0" textLength="32" font-weight="bold" class="foreground">LORE</text><text x="32" textLength="296" class="foreground"> &#8212; Architectural Memory for AI Coding</text></g><g id="g5"><text x="0" textLength="8" class="color4">&#8594;</text><text x="8" textLength="232" class="foreground"> Analyzing: /tmp/demo-project</text></g><g id="g6"><text x="0" textLength="8" class="color2">&#10003;</text><text x="8" textLength="264" class="foreground"> Found 11 architectural decisions</text></g><g id="g7"><text x="0" textLength="8" class="color2">&#10003;</text><text x="8" textLength="128" class="foreground"> LORE.md created</text></g><g id="g8"><text x="0" textLength="8" class="color2">&#10003;</text><text x="8" textLength="152" class="foreground"> .lore/ initialized</text></g><g id="g9"><text x="0" textLength="88" font-weight="bold" class="foreground">Next steps:</text></g><g id="g10"><text x="0" textLength="376" class="foreground">  1. Open LORE.md and review detected decisions</text></g><g id="g11"><text x="0" textLength="376" class="foreground">  2. Add LORE to your MCP settings (see README)</text></g><g id="g12"><text x="0" textLength="72" class="foreground">  3. Run </text><text x="72" textLength="88" class="color6">lore status</text><text x="160" textLength="168" class="foreground"> to see all decisions</text></g><g id="g13"><text x="0" textLength="344" class="foreground">  4. Start coding &#8212; AI now has full context</text></g><g id="g14"><text x="0" textLength="104" class="foreground">$ lore status</text></g><g id="g15"><text x="0" textLength="88" font-weight="bold" class="foreground">LORE Status</text><text x="88" textLength="160" class="foreground"> &#8212; /tmp/demo-project</text></g><g id="g16"><text x="0" textLength="280" class="foreground">Last updated: 3/18/2026, 2:47:27 PM</text></g><g id="g17"><text x="0" textLength="136" class="foreground">Total decisions: </text><text x="136" textLength="16" font-weight="bold" class="foreground">11</text></g><g id="g18"><text x="0" textLength="112" class="color6">AUTHENTICATION</text></g><g id="g19"><text x="0" textLength="16" class="foreground">  </text><text x="16" textLength="8" class="color2">&#9679;</text><text x="24" textLength="200" class="foreground"> JWT-based authentication</text></g><g id="g20"><text x="0" textLength="96" class="color6">ARCHITECTURE</text></g><g id="g21"><text x="0" textLength="16" class="foreground">  </text><text x="16" textLength="8" class="color2">&#9679;</text><text x="24" textLength="224" class="foreground"> Express.js as web framework</text></g><g id="g22"><text x="0" textLength="16" class="foreground">  </text><text x="16" textLength="8" class="color2">&#9679;</text><text x="24" textLength="208" class="foreground"> Zod for schema validation</text></g><g id="g23"><text x="0" textLength="16" class="foreground">  </text><text x="16" textLength="8" class="color2">&#9679;</text><text x="24" textLength="200" class="foreground"> MVC architecture pattern</text></g><g id="g24"><text x="0" textLength="88" class="color6">PERFORMANCE</text></g><g id="g25"><text x="0" textLength="16" class="foreground">  </text><text x="16" textLength="8" class="color2">&#9679;</text><text x="24" textLength="216" class="foreground"> Redis for caching/sessions</text></g><g id="g26"><text x="0" textLength="64" class="color6">SECURITY</text></g><g id="g27"><text x="0" textLength="16" class="foreground">  </text><text x="16" textLength="8" class="color3">&#9679;</text><text x="24" textLength="312" class="foreground"> 2 of 3 routes may lack auth middleware</text></g><g id="g28"><text x="0" textLength="16" class="foreground">  </text><text x="16" textLength="8" class="color2">&#9679;</text><text x="24" textLength="360" class="foreground"> Security-related changes detected in history</text></g><g id="g29"><text x="0" textLength="56" class="color6">PROJECT</text></g><g id="g30"><text x="0" textLength="16" class="foreground">  </text><text x="16" textLength="8" class="color2">&#9679;</text><text x="24" textLength="192" class="foreground"> Project is 0 months old</text></g><g id="g31"><text x="0" textLength="16" class="foreground">  </text><text x="16" textLength="8" class="color2">&#9679;</text><text x="24" textLength="256" class="foreground"> 1 contributor(s) in git history</text></g><g id="g32"><text x="0" textLength="32" class="color6">RISK</text></g><g id="g33"><text x="0" textLength="16" class="foreground">  </text><text x="16" textLength="8" class="color3">&#9679;</text><text x="24" textLength="504" class="foreground"> High churn file: src/controllers/userController.ts (1 changes)</text></g></defs><g id="screen_view"><g><rect x="0" y="0" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="0"/></g><g><use xlink:href="#g2" y="442"/><rect x="0" y="459" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="459"/></g><g><use xlink:href="#g2" y="884"/><use xlink:href="#g3" y="901"/><rect x="0" y="918" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="918"/></g><g><use xlink:href="#g2" y="1326"/><use xlink:href="#g3" y="1343"/><use xlink:href="#g4" y="1377"/><use xlink:href="#g5" y="1411"/><rect x="0" y="1445" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="1445"/></g><g><use xlink:href="#g2" y="1768"/><use xlink:href="#g3" y="1785"/><use xlink:href="#g4" y="1819"/><use xlink:href="#g5" y="1853"/><use xlink:href="#g6" y="1887"/><rect x="0" y="1921" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="1921"/></g><g><use xlink:href="#g2" y="2210"/><use xlink:href="#g3" y="2227"/><use xlink:href="#g4" y="2261"/><use xlink:href="#g5" y="2295"/><use xlink:href="#g6" y="2329"/><use xlink:href="#g7" y="2363"/><use xlink:href="#g8" y="2380"/><use xlink:href="#g9" y="2414"/><use xlink:href="#g10" y="2431"/><use xlink:href="#g11" y="2448"/><use xlink:href="#g12" y="2465"/><use xlink:href="#g13" y="2482"/><rect x="0" y="2516" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="2516"/></g><g><use xlink:href="#g2" y="2652"/><use xlink:href="#g3" y="2669"/><use xlink:href="#g4" y="2703"/><use xlink:href="#g5" y="2737"/><use xlink:href="#g6" y="2771"/><use xlink:href="#g7" y="2805"/><use xlink:href="#g8" y="2822"/><use xlink:href="#g9" y="2856"/><use xlink:href="#g10" y="2873"/><use xlink:href="#g11" y="2890"/><use xlink:href="#g12" y="2907"/><use xlink:href="#g13" y="2924"/><use xlink:href="#g14" y="2975"/><rect x="0" y="2992" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="2992"/></g><g><use xlink:href="#g2" y="3094"/><use xlink:href="#g3" y="3111"/><use xlink:href="#g4" y="3145"/><use xlink:href="#g5" y="3179"/><use xlink:href="#g6" y="3213"/><use xlink:href="#g7" y="3247"/><use xlink:href="#g8" y="3264"/><use xlink:href="#g9" y="3298"/><use xlink:href="#g10" y="3315"/><use xlink:href="#g11" y="3332"/><use xlink:href="#g12" y="3349"/><use xlink:href="#g13" y="3366"/><use xlink:href="#g14" y="3417"/><use xlink:href="#g15" y="3451"/><rect x="0" y="3485" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="3485"/></g><g><use xlink:href="#g4" y="3536"/><use xlink:href="#g5" y="3570"/><use xlink:href="#g6" y="3604"/><use xlink:href="#g7" y="3638"/><use xlink:href="#g8" y="3655"/><use xlink:href="#g9" y="3689"/><use xlink:href="#g10" y="3706"/><use xlink:href="#g11" y="3723"/><use xlink:href="#g12" y="3740"/><use xlink:href="#g13" y="3757"/><use xlink:href="#g14" y="3808"/><use xlink:href="#g15" y="3842"/><use xlink:href="#g16" y="3876"/><use xlink:href="#g17" y="3893"/><rect x="0" y="3927" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="3927"/></g><g><use xlink:href="#g18" y="3995"/><use xlink:href="#g19" y="4012"/><use xlink:href="#g20" y="4046"/><use xlink:href="#g21" y="4063"/><use xlink:href="#g22" y="4080"/><use xlink:href="#g23" y="4097"/><use xlink:href="#g24" y="4131"/><use xlink:href="#g25" y="4148"/><use xlink:href="#g26" y="4182"/><use xlink:href="#g27" y="4199"/><use xlink:href="#g28" y="4216"/><use xlink:href="#g29" y="4250"/><use xlink:href="#g30" y="4267"/><use xlink:href="#g31" y="4284"/><use xlink:href="#g32" y="4318"/><use xlink:href="#g33" y="4335"/><rect x="0" y="4369" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="4369"/></g></g></svg>
+</svg>
