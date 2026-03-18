@@ -1,0 +1,22 @@
+{
+  "projectPath": "/home/dedsec/lore-mcp",
+  "decisions": [
+    {
+      "id": "3e382b06-a015-43fe-8866-91e4fa799b5b",
+      "timestamp": "2026-03-17T23:50:05.963Z",
+      "category": "architecture",
+      "decision": "TypeScript as primary language",
+      "reason": "Found typescript in dependencies",
+      "alternatives": [
+        "JavaScript"
+      ],
+      "constraints": [
+        "Use strict mode",
+        "No any types without comment"
+      ],
+      "author": "LORE",
+      "confidence": "HIGH"
+    }
+  ],
+  "lastUpdated": "2026-03-17T23:50:05.963Z"
+}

@@ -4,14 +4,19 @@
   "description": "LORE — Architectural Memory for AI Coding",
   "main": "dist/index.js",
   "bin": {
-    "lore": "./dist/cli.js"
+    "lore": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",
     "dev": "ts-node src/index.ts",
     "start": "node dist/index.js"
   },
-  "keywords": ["mcp", "ai", "architecture", "developer-tools"],
+  "keywords": [
+    "mcp",
+    "ai",
+    "architecture",
+    "developer-tools"
+  ],
   "author": "EliotShift",
   "license": "MIT",
   "type": "commonjs",
