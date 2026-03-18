@@ -40,11 +40,7 @@ cd your-project
 lore init
 ```
 
-LORE reads your codebase and automatically extracts:
-- Architectural decisions from dependencies
-- Security gaps from source code
-- Risk patterns from git history
-- The WHY behind your choices
+LORE reads your codebase and automatically extracts up to **24 architectural decisions** including security gaps, risk patterns, and the WHY behind your choices.
 
 ## Quick Start
 ```bash
@@ -72,6 +68,7 @@ lore status
 - Frameworks (Express, Fastify, Next.js, Hono)
 - Validation (Zod, Yup, Joi)
 - Caching (Redis, Memcached)
+- Security (bcrypt, helmet, cors, dotenv)
 
 **From source code:**
 - API versioning patterns (`/api/v1/`)
@@ -84,6 +81,7 @@ lore status
 - Project age and contributors
 - High churn files (risk indicators)
 - Bug-fix ratio (code quality signal)
+- Commit message quality score
 - Security-related commit patterns
 
 ## Capture the WHY
