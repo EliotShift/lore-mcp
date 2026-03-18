@@ -1,8 +1,8 @@
-# LORE — Architectural Memory for AI Coding
-
 <p align="center">
-  <img src="logo-transparent.png" width="300" alt="LORE Logo"/>
+  <img src="logo.png" width="250" alt="LORE"/>
 </p>
+
+# LORE — Architectural Memory for AI Coding
 
 > AI forgets why your code was built this way. LORE remembers.
 
@@ -47,6 +47,27 @@ cd your-project
 lore init
 ```
 
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `lore init` | Analyze project and extract architectural decisions |
+| `lore decide "reason"` | Record WHY behind a decision manually |
+| `lore status` | View all decisions with categories |
+| `lore doctor` | Diagnose setup issues |
+| `lore --version` | Show version |
+
+## Why lore decide?
+
+Automated extraction captures WHAT your code uses.
+`lore decide` captures WHY you made that choice:
+```bash
+lore decide "chose PostgreSQL over MongoDB because we need ACID transactions for payments"
+lore decide "rejected Redis sessions — JWT scales better for our microservices"
+```
+
+Every future AI session knows the reasoning, not just the stack.
+
 ## MCP Integration (Claude Code / Cursor)
 ```json
 {
@@ -68,14 +89,6 @@ lore init
 - Caching strategies (Redis, Memcached)
 - Testing frameworks (Jest, Vitest)
 - Security rules and constraints
-
-## Tools
-
-| Tool | Description |
-|------|-------------|
-| `record_decision` | Record an architectural decision |
-| `get_context` | Get all decisions for current project |
-| `get_gaps` | Find decisions with unmet constraints |
 
 ## Built by
 
