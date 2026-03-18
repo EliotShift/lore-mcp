@@ -1,8 +1,8 @@
+<h1 align="center">LORE — Architectural Memory for AI Coding</h1>
+
 <p align="center">
   <img src="logo.png" width="350" alt="LORE"/>
 </p>
-
-<h1 align="center">LORE — Architectural Memory for AI Coding</h1>
 
 <p align="center">
   <a href="https://npmjs.com/package/lore-mcp"><img src="https://img.shields.io/npm/v/lore-mcp?color=4f6ef7&label=npm&style=flat-square" alt="npm"/></a>
