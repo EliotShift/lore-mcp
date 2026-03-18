@@ -542,6 +542,14 @@ switch (command) {
       process.exit(1);
     });
     break;
+  case "decide":
+    const reason = args.slice(1).join(" ");
+    if (!reason) {
+      err("Please provide a reason. Example: lore decide \"chose PostgreSQL over MongoDB because we need ACID transactions\"");
+      process.exit(1);
+    }
+    decide(reason).catch((e) => { err(String(e)); process.exit(1); });
+    break;
   case "status":
     status();
     break;
@@ -558,4 +566,51 @@ switch (command) {
     err(`Unknown command: ${command}`);
     info(`Run 'lore --help' to see available commands.\n`);
     process.exit(1);
+}
+
+// ──────────────────────────────────────────
+// DECIDE: manually record WHY behind a decision
+// ──────────────────────────────────────────
+
+async function decide(reason: string) {
+  const projectPath = process.cwd();
+  const loreDir = path.join(projectPath, ".lore");
+  const decisionsJson = path.join(loreDir, "decisions.json");
+
+  if (!fs.existsSync(decisionsJson)) {
+    err(`No LORE data found. Run lore init first.\n`);
+    process.exit(1);
+  }
+
+  log(`\n${BOLD}LORE Decide${RESET} — Recording your decision\n`);
+
+  // Parse the reason: "chose X over Y because Z"
+  const decision = makeDecision(
+    "architecture",
+    reason,
+    "Manually recorded by developer",
+    "HIGH",
+    [],
+    []
+  );
+
+  // Mark as human-written
+  (decision as any).author = "human";
+  (decision as any).human_why = true;
+
+  // Load existing decisions
+  const store = JSON.parse(fs.readFileSync(decisionsJson, "utf-8"));
+  store.decisions.push(decision);
+  store.lastUpdated = new Date().toISOString();
+
+  // Save
+  fs.writeFileSync(decisionsJson, JSON.stringify(store, null, 2));
+
+  // Regenerate LORE.md
+  generateLoreMd(store, projectPath);
+
+  ok(`Decision recorded: "${reason}"`);
+  ok(`LORE.md updated\n`);
+
+  log(`${BOLD}View all decisions:${RESET} lore status\n`);
 }
