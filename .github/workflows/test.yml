@@ -1,0 +1,62 @@
+name: Test on Linux and macOS
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install and build
+        run: npm install && npm run build
+
+      - name: Install LORE globally
+        run: npm install -g .
+
+      - name: Create test project
+        run: |
+          mkdir -p /tmp/test-lore/src/controllers
+          cd /tmp/test-lore
+          npm init -y
+          npm install express pg jsonwebtoken zod
+          cat > src/controllers/test.ts << 'CTRL'
+          import express from 'express';
+          const router = express.Router();
+          router.get('/api/v1/users', async (req, res) => {
+            res.json({});
+          });
+          CTRL
+          git init
+          git config user.email "test@test.com"
+          git config user.name "Test"
+          git add -A
+          git commit -m "initial commit"
+          git commit --allow-empty -m "fix: bug"
+
+      - name: Test lore init
+        run: cd /tmp/test-lore && lore init
+
+      - name: Test lore status
+        run: cd /tmp/test-lore && lore status
+
+      - name: Test lore doctor
+        run: cd /tmp/test-lore && lore doctor
+
+      - name: Verify decisions
+        run: |
+          cd /tmp/test-lore
+          lore status | grep "Total decisions:"
