@@ -8,6 +8,8 @@
   <a href="https://npmjs.com/package/lore-mcp"><img src="https://img.shields.io/npm/v/lore-mcp?color=4f6ef7&label=npm&style=flat-square" alt="npm"/></a>
   <a href="https://npmjs.com/package/lore-mcp"><img src="https://img.shields.io/npm/dm/lore-mcp?color=4f6ef7&style=flat-square" alt="downloads"/></a>
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="license"/>
+  <img src="https://img.shields.io/github/actions/workflow/status/EliotShift/lore-mcp/test.yml?style=flat-square&label=CI" alt="CI"/>
+  <img src="https://img.shields.io/badge/tested%20on-Linux%20%26%20macOS-blue?style=flat-square" alt="platforms"/>
   <img src="https://img.shields.io/badge/local--first-no%20data%20leaves-brightgreen?style=flat-square" alt="local-first"/>
 </p>
 
