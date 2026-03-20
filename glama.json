@@ -1,10 +1,7 @@
 {
+  "$schema": "https://glama.ai/mcp/servers/schema.json",
   "name": "lore-mcp",
-  "description": "Architectural memory layer for AI coding. Automatically extracts architectural decisions, detects security gaps, and analyzes git history.",
+  "description": "Architectural memory layer for AI coding.",
   "license": "MIT",
-  "homepage": "https://github.com/EliotShift/lore-mcp",
-  "author": {
-    "name": "EliotShift",
-    "url": "https://x.com/TheEliotShift"
-  }
+  "homepage": "https://github.com/EliotShift/lore-mcp"
 }
