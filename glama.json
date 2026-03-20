@@ -1,7 +1,6 @@
 {
-  "$schema": "https://glama.ai/mcp/servers/schema.json",
-  "name": "lore-mcp",
-  "description": "Architectural memory layer for AI coding.",
-  "license": "MIT",
-  "homepage": "https://github.com/EliotShift/lore-mcp"
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": [
+    "EliotShift"
+  ]
 }
