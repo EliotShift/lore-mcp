@@ -1,0 +1,10 @@
+{
+  "name": "lore-mcp",
+  "description": "Architectural memory layer for AI coding. Automatically extracts architectural decisions, detects security gaps, and analyzes git history.",
+  "license": "MIT",
+  "homepage": "https://github.com/EliotShift/lore-mcp",
+  "author": {
+    "name": "EliotShift",
+    "url": "https://x.com/TheEliotShift"
+  }
+}
