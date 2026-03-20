@@ -15,6 +15,8 @@
 
 <p align="center"><em>AI forgets why your code was built this way. LORE remembers.</em></p>
 
+[![lore-mcp MCP server](https://glama.ai/mcp/servers/EliotShift/lore-mcp/badges/card.svg)](https://glama.ai/mcp/servers/EliotShift/lore-mcp)
+
 ---
 
 ## See it in action
